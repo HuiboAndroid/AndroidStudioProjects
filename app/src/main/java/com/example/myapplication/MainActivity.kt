@@ -8,7 +8,7 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
     var checked = false
-    val url = "http://dataservice.accuweather.com/forecasts/v1/minute"
+    val url = "https://dataservice.accuweather.com/forecasts/v1/minute"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
