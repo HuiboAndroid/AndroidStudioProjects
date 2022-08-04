@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
-    var checked = false;
+    var checked = false
+    val url = "http://dataservice.accuweather.com/forecasts/v1/minute"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         System.out.println("onCreate")
@@ -23,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         mCheckBox.setOnCheckedChangeListener{ _, isChecked -> if(isChecked) {
            checked = true
         }}
-
+        DownloadFilesTask().execute(URL(url));
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
