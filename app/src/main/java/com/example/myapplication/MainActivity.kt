@@ -1,8 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.widget.CheckBox
-import android.widget.CompoundButton
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.net.URL
 
@@ -26,7 +25,16 @@ class MainActivity : AppCompatActivity() {
         mCheckBox.setOnCheckedChangeListener{ _, isChecked -> if(isChecked) {
            checked = true
         }}
+
+        val mButton: Button = findViewById(R.id.button)
+        val mTextView: TextView = findViewById(R.id.textView)
+        val mEditText: EditText = findViewById(R.id.editText)
+        mButton.setOnClickListener{
+            val text = mEditText.text
+            mTextView.setText(text)
+        }
         DownloadFilesTask().execute(URL(url));
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
