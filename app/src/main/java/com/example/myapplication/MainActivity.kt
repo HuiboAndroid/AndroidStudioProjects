@@ -5,9 +5,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.net.URL
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AsyncResponse {
+    lateinit var mTextView: TextView
     var checked = false
-    val url = "https://dataservice.accuweather.com/forecasts/v1/minute"
+    val url = "https://api.publicapis.org/entries"
+    var asyncTask: DownloadFilesTask = DownloadFilesTask()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             with(savedInstanceState) {
                 // Restore value of members from saved state
-                checked = getBoolean(STATE_CHECKED)
+               // checked = getBoolean(STATE_CHECKED)
             }
         }
 
@@ -27,13 +29,14 @@ class MainActivity : AppCompatActivity() {
         }}
 
         val mButton: Button = findViewById(R.id.button)
-        val mTextView: TextView = findViewById(R.id.textView)
         val mEditText: EditText = findViewById(R.id.editText)
+        this.mTextView = findViewById(R.id.textView)
         mButton.setOnClickListener{
             val text = mEditText.text
-            mTextView.setText(text)
+            this.mTextView.setText(text)
         }
-        DownloadFilesTask().execute(URL(url));
+        asyncTask.delegate = this
+        asyncTask.execute(URL(url));
 
     }
 
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         System.out.println("onSaveInstanceState")
         // Save the user's current game state
         outState?.run {
-            putBoolean(STATE_CHECKED, checked)
+            //putBoolean(STATE_CHECKED, checked)
         }
 
         // Always call the superclass so it can save the view hierarchy state
@@ -75,6 +78,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         System.out.println("onDestroy")
         super.onDestroy()
+    }
+
+    override fun processFinish(output: String?) {
+        this.mTextView.setText(output)
     }
 
 }
